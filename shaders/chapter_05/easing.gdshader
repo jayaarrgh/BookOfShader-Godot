@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
-const float PI = 3.141592653589793;
-const float HALF_PI = 1.5707963267948966;
+//const float PI = 3.141592653589793;
+const float HALF_PI = PI/2.0; //1.5707963267948966;
 
 
 // Robert Penner's easing functions in GLSL

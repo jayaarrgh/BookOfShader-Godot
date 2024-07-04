@@ -3,8 +3,6 @@ shader_type canvas_item;
 // Author @patriciogv - 2015
 // Title: Truchet - 10 print
 
-const float PI = 3.14159265358979323846;
-
 float random (in vec2 _st) {
     return fract(sin(dot(_st.xy,
                          vec2(12.9898,78.233)))*

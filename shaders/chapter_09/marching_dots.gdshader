@@ -1,8 +1,6 @@
 shader_type canvas_item;
 
 // Author @patriciogv - 2015 - patricio.io
-const float PI = 3.1415926535897932384626433832795;
-
 vec2 movingTiles(vec2 _st, float _zoom, float _speed, float t){
     _st *= _zoom;
     float time = t*_speed;

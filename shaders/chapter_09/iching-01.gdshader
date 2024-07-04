@@ -3,7 +3,6 @@ shader_type canvas_item;
 // Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
 // Title: IChing series
 
-const float PI = 3.14159265359;
 const float TWO_PI = 6.28318530718;
 
 float shape(vec2 st, float N){

@@ -1,8 +1,6 @@
 shader_type canvas_item;
 
 // Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
-const float PI = 3.14159265358979323846;
-
 const float rows = 10.0;
 
 vec2 brickTile(vec2 _st, float _zoom){

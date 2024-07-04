@@ -1,93 +1,87 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=3 uid="uid://ckytn4x761qqe"]
 
-[ext_resource path="res://scripts/BookOfShaders.gd" type="Script" id=1]
-[ext_resource path="res://scripts/TextEdit.gd" type="Script" id=2]
-[ext_resource path="res://Inconsolata.otf" type="DynamicFontData" id=3]
-[ext_resource path="res://shaders/chapter_12/2d-voronoise.shader" type="Shader" id=4]
-[ext_resource path="res://DarkTheme.tres" type="Theme" id=5]
-[ext_resource path="res://shaders/3D/3DTest.gdshader" type="Shader" id=6]
-[ext_resource path="res://scripts/Camera.gd" type="Script" id=7]
+[ext_resource type="Script" path="res://scripts/BookOfShaders.gd" id="1"]
+[ext_resource type="FontFile" uid="uid://d80tnws1ntvd" path="res://Inconsolata.otf" id="3"]
+[ext_resource type="Shader" path="res://shaders/chapter_12/2d-voronoise.gdshader" id="4"]
+[ext_resource type="Theme" uid="uid://bmemhxm21ckwb" path="res://DarkTheme.tres" id="5"]
+[ext_resource type="Script" path="res://scripts/CodeEdit.gd" id="6_v4gw4"]
+[ext_resource type="Script" path="res://scripts/Camera.gd" id="7"]
 
-[sub_resource type="CubeMesh" id=3]
+[sub_resource type="BoxMesh" id="3"]
 
-[sub_resource type="ShaderMaterial" id=8]
-shader = ExtResource( 6 )
+[sub_resource type="Sky" id="6"]
 
-[sub_resource type="ProceduralSky" id=6]
-
-[sub_resource type="Environment" id=7]
+[sub_resource type="Environment" id="7"]
 background_mode = 2
-background_sky = SubResource( 6 )
+sky = SubResource("6")
 
-[sub_resource type="ShaderMaterial" id=1]
-shader = ExtResource( 4 )
-shader_param/mouse_position = null
+[sub_resource type="ShaderMaterial" id="1"]
+shader = ExtResource("4")
+shader_parameter/mouse_position = null
 
-[sub_resource type="DynamicFont" id=2]
-size = 14
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-use_filter = true
-extra_spacing_top = -2
-extra_spacing_bottom = -2
-extra_spacing_space = -1
-font_data = ExtResource( 3 )
+[sub_resource type="FontFile" id="2"]
+fallbacks = Array[Font]([ExtResource("3")])
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
+
+[sub_resource type="CodeHighlighter" id="CodeHighlighter_amb64"]
+number_color = Color(0.400021, 0.747795, 0.41912, 1)
+symbol_color = Color(0.631373, 0.741176, 0.937255, 1)
+function_color = Color(1, 0.273904, 0.397075, 1)
+member_variable_color = Color(0.8, 0.364706, 0.431373, 1)
 
 [node name="Main" type="Node"]
 
-[node name="3D" type="Spatial" parent="."]
+[node name="3D" type="Node3D" parent="."]
 
-[node name="MeshInstance" type="MeshInstance" parent="3D"]
-mesh = SubResource( 3 )
-material/0 = SubResource( 8 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="3D"]
+mesh = SubResource("3")
 
-[node name="GimbleY" type="Spatial" parent="3D"]
-transform = Transform( 0.607431, 0, 0.794372, 0, 1, 0, -0.794372, 0, 0.607431, 0, 0, 0 )
-script = ExtResource( 7 )
+[node name="GimbleY" type="Node3D" parent="3D"]
+transform = Transform3D(0.607431, 0, 0.794372, 0, 1, 0, -0.794372, 0, 0.607431, 0, 0, 0)
+script = ExtResource("7")
 
-[node name="GimbleX" type="Spatial" parent="3D/GimbleY"]
-transform = Transform( 1, 0, 0, 0, 0.918412, 0.395626, 0, -0.395626, 0.918412, 0, 0, 0 )
+[node name="GimbleX" type="Node3D" parent="3D/GimbleY"]
+transform = Transform3D(1, 0, 0, 0, 0.918412, 0.395626, 0, -0.395626, 0.918412, 0, 0, 0)
 
-[node name="Camera" type="Camera" parent="3D/GimbleY/GimbleX"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
+[node name="Camera3D" type="Camera3D" parent="3D/GimbleY/GimbleX"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 current = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="3D"]
-environment = SubResource( 7 )
+environment = SubResource("7")
 
 [node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
 
 [node name="ColorRect" type="ColorRect" parent="UI"]
-material = SubResource( 1 )
+material = SubResource("1")
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 focus_mode = 1
-color = Color( 0.305882, 0.286275, 0.286275, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0.305882, 0.286275, 0.286275, 1)
 
-[node name="TextEdit" type="TextEdit" parent="UI"]
+[node name="CodeEdit" type="CodeEdit" parent="UI"]
+layout_mode = 0
 anchor_right = 0.5
 anchor_bottom = 1.0
 focus_mode = 1
-theme = ExtResource( 5 )
-custom_colors/member_variable_color = Color( 0.909804, 0.172549, 0.152941, 1 )
-custom_colors/function_color = Color( 0.580392, 0.737255, 0.321569, 1 )
-custom_colors/symbol_color = Color( 0.92549, 0.541176, 0.0470588, 1 )
-custom_colors/caret_background_color = Color( 0.929412, 0.0235294, 0.0235294, 1 )
-custom_colors/caret_color = Color( 0, 1, 0.533333, 1 )
-custom_colors/line_number_color = Color( 1, 1, 1, 0.521569 )
-custom_colors/number_color = Color( 0.988235, 0.623529, 0.843137, 1 )
-custom_colors/brace_mismatch_color = Color( 1, 0, 0, 1 )
-custom_colors/current_line_color = Color( 0.921569, 0.921569, 0.921569, 0.0980392 )
-custom_fonts/font = SubResource( 2 )
+theme = ExtResource("5")
+theme_override_colors/current_line_color = Color(0.921569, 0.921569, 0.921569, 0.0980392)
+theme_override_colors/caret_color = Color(0, 1, 0.533333, 1)
+theme_override_colors/caret_background_color = Color(0.929412, 0.0235294, 0.0235294, 1)
+theme_override_fonts/font = SubResource("2")
 text = "shader_type canvas_item;
 
 // Created by inigo quilez - iq/2013
@@ -138,130 +132,75 @@ void fragment() {
     COLOR = vec4(vec3(n),1.0);
 }
 "
-highlight_current_line = true
-syntax_highlighting = true
-show_line_numbers = true
-smooth_scrolling = true
 minimap_draw = true
-caret_block_mode = true
 caret_blink = true
-script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+syntax_highlighter = SubResource("CodeHighlighter_amb64")
+highlight_current_line = true
+gutters_draw_line_numbers = true
+script = ExtResource("6_v4gw4")
 
-[node name="SwitchShader" type="Button" parent="UI"]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -105.097
-margin_top = 4.16963
-margin_right = -5.09619
-margin_bottom = 26.1696
-theme = ExtResource( 5 )
+offset_left = -423.0
+offset_top = 8.0
+offset_right = -6.0
+offset_bottom = 48.0
+grow_horizontal = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="SwitchShader" type="Button" parent="UI/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5")
 text = "Switch Shader"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="CodeToggle" type="Button" parent="UI"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -188.917
-margin_top = 4.19305
-margin_right = -109.917
-margin_bottom = 26.1931
-theme = ExtResource( 5 )
+[node name="CodeToggle" type="Button" parent="UI/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5")
 toggle_mode = true
 shortcut_in_tooltip = false
-pressed = true
 text = "Edit Code"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Reset" type="Button" parent="UI"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -241.921
-margin_top = 4.3079
-margin_right = -193.921
-margin_bottom = 26.3079
-theme = ExtResource( 5 )
+[node name="Reset" type="Button" parent="UI/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5")
 text = "Reset"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="NewShader" type="Button" parent="UI"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -333.808
-margin_top = 3.99564
-margin_right = -246.808
-margin_bottom = 25.9956
-theme = ExtResource( 5 )
+[node name="NewShader" type="Button" parent="UI/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5")
 text = "New Shader"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="2D3D" type="Button" parent="UI"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -374.0
-margin_top = 4.0
-margin_right = -340.0
-margin_bottom = 26.0
-theme = ExtResource( 5 )
+[node name="2D3D" type="Button" parent="UI/HBoxContainer"]
+layout_mode = 2
+theme = ExtResource("5")
 shortcut_in_tooltip = false
 text = "2D"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="FileDialog" type="FileDialog" parent="UI"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -297.263
-margin_right = 2.73682
-margin_bottom = 437.0
-rect_pivot_offset = Vector2( 299.856, -0.0221341 )
-theme = ExtResource( 5 )
-window_title = "Pick A Shader"
-mode_overrides_title = false
-mode = 0
+title = "Open a File"
+size = Vector2i(428, 428)
+theme = ExtResource("5")
+ok_button_text = "Open"
+file_mode = 0
 access = 1
-filters = PoolStringArray( "*.gdshader", "*.shader" )
+filters = PackedStringArray("*.gdshader")
 show_hidden_files = true
-current_dir = "user://media/jr/Mnemonic Courier/godot/_src/BookOfShaders-Godot"
-current_path = "user://media/jr/Mnemonic Courier/godot/_src/BookOfShaders-Godot/"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="NewShaderDialog" type="FileDialog" parent="UI"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -349.802
-margin_top = 55.7754
-margin_right = -6.80188
-margin_bottom = 466.775
-theme = ExtResource( 5 )
-window_title = "Create Shader"
+size = Vector2i(428, 428)
+theme = ExtResource("5")
 mode_overrides_title = false
 access = 1
-filters = PoolStringArray( "*.gdshader", "*.shader" )
+filters = PackedStringArray("*.gdshader")
 show_hidden_files = true
-current_dir = "user://shaders"
-current_path = "user://shaders/"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[connection signal="pressed" from="UI/SwitchShader" to="UI" method="_on_SwitchShader_pressed"]
-[connection signal="toggled" from="UI/CodeToggle" to="UI" method="_on_CodeToggle_toggled"]
-[connection signal="pressed" from="UI/Reset" to="UI" method="_on_Reset_pressed"]
-[connection signal="pressed" from="UI/NewShader" to="UI" method="_on_NewShader_pressed"]
-[connection signal="button_up" from="UI/2D3D" to="UI" method="_on_2D3D_button_up"]
+[connection signal="pressed" from="UI/HBoxContainer/SwitchShader" to="UI" method="_on_SwitchShader_pressed"]
+[connection signal="toggled" from="UI/HBoxContainer/CodeToggle" to="UI" method="_on_CodeToggle_toggled"]
+[connection signal="pressed" from="UI/HBoxContainer/Reset" to="UI" method="_on_Reset_pressed"]
+[connection signal="pressed" from="UI/HBoxContainer/NewShader" to="UI" method="_on_NewShader_pressed"]
+[connection signal="button_up" from="UI/HBoxContainer/2D3D" to="UI" method="_on_2D3D_button_up"]
 [connection signal="file_selected" from="UI/FileDialog" to="UI" method="_on_FileDialog_file_selected"]
 [connection signal="file_selected" from="UI/NewShaderDialog" to="UI" method="_on_NewShaderDialog_file_selected"]

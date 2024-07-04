@@ -2,7 +2,7 @@ shader_type canvas_item;
 
 // Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
 
-const float PI = 3.14159265358979323846;
+//const float PI = 3.14159265358979323846;
 
 vec2 rotate2D(vec2 _st, float _angle){
     _st -= 0.5;

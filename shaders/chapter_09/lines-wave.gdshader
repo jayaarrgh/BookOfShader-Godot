@@ -1,7 +1,6 @@
 shader_type canvas_item;
 
 // Author @patriciogv - 2015 - patricio.io
-const float PI = 3.1415926535897932384626433832795;
 
 vec2 wave(vec2 st, float freq) {
 	st.y += cos(st.x*freq);
