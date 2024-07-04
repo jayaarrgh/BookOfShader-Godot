@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-const float PI = 3.14159265359;
+//const float PI = 3.14159265359;
 
 float plot(vec2 st, float pct){
   return  smoothstep( pct-0.02, pct, st.y) -

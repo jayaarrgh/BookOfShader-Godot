@@ -2,8 +2,6 @@ shader_type canvas_item;
 
 // Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
 
-const float PI = 3.14159265359;
-
 mat2 scale(vec2 _scale){
     return mat2(vec2(_scale.x,0.0),
                 vec2(0.0,_scale.y));

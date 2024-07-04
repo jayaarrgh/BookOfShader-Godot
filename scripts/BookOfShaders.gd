@@ -10,7 +10,7 @@ const USER_SHADER_DIR_2D : String = "user://shaders"
 const SHADER_TEMPLATE_2D : String = "shader_type canvas_item;\n\nvoid fragment(){\n\tCOLOR = vec4(vec3(0.0,0.5,0.3), 1.);\n}"
 const RES_SHADER_DIR_3D  : String = "res://shaders/3D/"
 const USER_SHADER_DIR_3D : String = "user://shaders/3D/"
-const SHADER_TEMPLATE_3D : String = "shader_type spatial;\nrender_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;\n//TODO: Accept a texture in our editor\n//uniform sampler2D texture_albedo : hint_albedo;\n\nvarying smooth vec3 our_color;\n//varying flat vec3 our_color;\n\nvoid vertex() {\n	our_color = VERTEX;\n}\n\n\nvoid fragment() {\n	ALBEDO = our_color.rgb;\n}\n"
+const SHADER_TEMPLATE_3D : String = "shader_type spatial;\nrender_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;\n//TODO: Accept a texture in our editor\n//uniform sampler2D texture_albedo : source_color;\n\nvarying smooth vec3 our_color;\n//varying flat vec3 our_color;\n\nvoid vertex() {\n	our_color = VERTEX;\n}\n\n\nvoid fragment() {\n	ALBEDO = our_color.rgb;\n}\n"
 const UPDATE_SHADER_2D   : float = 0.2 # update shader every 200ms
 const SAVE_SHADER_2D     : float = 2.0 # save every 2 seconds
 # update in 3d is a bit slower at Godot stutters when loading 3d shaders 
@@ -18,12 +18,12 @@ const UPDATE_SHADER_3D   : float = 1.0 # update shader every 1s
 const SAVE_SHADER_3D     : float = 4.0 # save every 4s
 
 
-onready var textEdit  : TextEdit  = $TextEdit
-onready var colorRect : ColorRect = $ColorRect
-onready var rectMat   : Material  = colorRect.material
-onready var main3d    : Spatial   = $"../3D"
-onready var meshMat   : Material  = $"../3D/MeshInstance".get_surface_material(0)
-onready var dimension : Button    = $"2D3D"
+@onready var codeEdit  : CodeEdit  = $CodeEdit
+@onready var colorRect : ColorRect = $ColorRect
+@onready var rectMat   : Material  = colorRect.material
+@onready var main3d    : Node3D   = $"../3D"
+@onready var meshMat   : Material  = $"../3D/MeshInstance3D".get_surface_override_material(0)
+@onready var dimension : Button    = $"HBoxContainer/2D3D"
 
 
 # STATE
@@ -47,7 +47,7 @@ func _ready():
 	# set the current shader path to the new or existing user path now
 	current_shader_path = target.shader.get_path().replace('res://', 'user://')
 	target.shader = load(current_shader_path)
-	textEdit.text = target.shader.code
+	codeEdit.text = target.shader.code
 	update_shader = UPDATE_SHADER_2D
 	save_shader = SAVE_SHADER_2D
 	shader_template = SHADER_TEMPLATE_2D
@@ -63,7 +63,7 @@ func _input(event):
 	if !mode2d: return
 	if event is InputEventMouseMotion:
 		# send mouse movement to the shader - even if the shader doesn't have the param
-		target.set_shader_param('mouse_position', get_local_mouse_position())
+		target.set_shader_parameter('mouse_position', get_local_mouse_position())
 
 
 func _process(delta):
@@ -78,14 +78,14 @@ func _process(delta):
 
 
 func _copy_editor_shader_code():
-	if textEdit.text == "": return
-	target.shader.set_code(textEdit.text)
+	if codeEdit.text == "": return
+	target.shader.set_code(codeEdit.text)
 
 
 func _save_shader():
 	# TODO: ? allow user to choose whether autosave happens?
 	var shader_to_save = target.shader
-	var _e = ResourceSaver.save(current_shader_path, shader_to_save)
+	var _e = ResourceSaver.save(shader_to_save, current_shader_path)
 	if _e != OK:
 		print('something went wrong when trying to save shader')
 
@@ -100,8 +100,8 @@ func _on_SwitchShader_pressed():
 
 
 func _on_CodeToggle_toggled(_button_pressed):
-	if textEdit.is_visible_in_tree(): textEdit.hide()
-	else: textEdit.show()
+	if codeEdit.is_visible_in_tree(): codeEdit.hide()
+	else: codeEdit.show()
 
 
 func _on_Reset_pressed():
@@ -111,18 +111,18 @@ func _on_Reset_pressed():
 	if not resource_shader:
 		print('Could not find original resource shader')
 		return
-	textEdit.text = resource_shader.code
+	codeEdit.text = resource_shader.code
 	target.shader.set_code(resource_shader.code)
 	_save_shader()
 
 
 func _on_NewShaderDialog_file_selected(path):
 	# create new shader
-	if not path.ends_with('.gdshader') or not path.ends_with('.shader'): return
+	if not path.ends_with('.gdshader'): return
 	current_shader_path = path
 	var new_shader = Shader.new()
 	new_shader.code = shader_template
-	textEdit.text = shader_template
+	codeEdit.text = shader_template
 	target.set_shader(new_shader)
 	_save_shader()
 
@@ -137,7 +137,7 @@ func _on_FileDialog_file_selected(path):
 	if not shader is Shader:
 		print('that wasnt a shader')
 		return
-	textEdit.text = shader.code
+	codeEdit.text = shader.code
 	target.set_shader(shader)
 
 
@@ -170,5 +170,5 @@ func _on_2D3D_button_up():
 	$NewShaderDialog.current_dir = user_shader_dir
 	$NewShaderDialog.current_path = user_shader_dir
 	current_shader_path = target.shader.get_path().replace('res://', 'user://')
-	textEdit.text = target.shader.code
+	codeEdit.text = target.shader.code
 	self.set_process(true)

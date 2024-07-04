@@ -2,7 +2,6 @@ shader_type canvas_item;
 
 // Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
 
-const float PI = 3.14159265358979323846;
 const float TWO_PI = 6.28318530717958647693;
 const float PHI = 1.618033988749894848204586834;
 

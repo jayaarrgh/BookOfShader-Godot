@@ -2,8 +2,8 @@ shader_type canvas_item;
 
 const float PI = 3.141592653589793;
 
-uniform vec4 colorA : hint_color = vec4(0.149,0.141,0.912, 1.0);
-uniform vec4 colorB : hint_color = vec4(1.000,0.833,0.224, 1.0);
+uniform vec4 colorA : source_color = vec4(0.149,0.141,0.912, 1.0);
+uniform vec4 colorB : source_color = vec4(1.000,0.833,0.224, 1.0);
 
 float plot (vec2 st, float pct){
   return  smoothstep( pct-0.01, pct, st.y) -

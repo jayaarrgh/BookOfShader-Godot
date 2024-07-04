@@ -2,7 +2,6 @@ shader_type canvas_item;
 
 // Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
 
-const float PI = 3.14159265359;
 const float TWO_PI = 6.28318530718;
 
 float shape(vec2 st, int N){

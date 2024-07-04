@@ -1,6 +1,6 @@
 shader_type canvas_item;
 
-const float PI    = 3.1415926535897932384626433832795;
+//const float PI    = 3.1415926535897932384626433832795;
 const float PI_2  = 1.57079632679489661923;
 const float PI_4  = 0.785398163397448309616;
 const float PI180 = .017453293;

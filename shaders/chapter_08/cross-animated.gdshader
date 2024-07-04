@@ -2,8 +2,6 @@ shader_type canvas_item;
 
 // Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
 
-const float PI = 3.14159265359;
-
 mat2 rotate2d(float _angle){
     return mat2(vec2(cos(_angle),-sin(_angle)),
                 vec2(sin(_angle),cos(_angle)));

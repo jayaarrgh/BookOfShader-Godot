@@ -2,8 +2,6 @@ shader_type canvas_item;
 
 // Author @patriciogv ( patriciogonzalezvivo.com ) - 2015
 
-const float PI = 3.14159265358979323846;
-
 float fillX(vec2 _st, float _pct,float _antia){
   return  smoothstep( _pct-_antia, _pct, _st.x);
 }
